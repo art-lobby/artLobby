@@ -1,14 +1,30 @@
-const express = require('express');
+// Import Node Native Modules
 const path = require('path');
 
-const app = express();
+// Import Third Party Modules
+const express = require('express');
 
-//Set static folder
-app.use(express.static(path.join(__dirname, 'artLobby')));
-
+// Declare App Constants
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log('server started on ${PORT}'));
+const users = {
+  sam: "password",
+  amanda: "password2"
+};
+
+// Setup Express App
+const app = express();
+
+//Set Static Folder
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+// Application Endpoints
+app.post('/login', (req, res, next) => {
+
+});
+
+
+app.listen(PORT, () => console.log(`server started on ${PORT}`));
 
 /*
 var express = require ("express");
