@@ -10,14 +10,16 @@ const session = require('express-session');
 // Setup Express App
 const app = express();
 
-// Declare App Constants
-const PORT = process.env.PORT || 5000;
+app.use(express.json())
 
-// var session;
+
 
 app.use(session({
   secret: "shh",
 }));
+
+// Declare App Constants
+const PORT = process.env.PORT || 5000;
 
 
 const users = {
