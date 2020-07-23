@@ -40,13 +40,11 @@ app.post('/frontend/login.html', (req, res, next) => {
   session.password = req.body.password;
   res.end('done');
 
-
 });
 
 app.get('/frontend/login.html', (req, res, next) => {
 
-  session = req.sessions;
-
+  const session = req.sessions;
 
   if (req.body.username == 'karen' && req.body.password == 'test123') {
 
