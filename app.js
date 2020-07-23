@@ -7,10 +7,21 @@ const express = require('express');
 // Declare App Constants
 const PORT = process.env.PORT || 5000;
 
+var sessions = require('express-session');
+
+var session;
+
+app.use(session({
+  secret: "shh",
+}));
+
+
 const users = {
-  sam: "password",
-  amanda: "password2"
+  '0': "sam",
+  '1': "amanda"
 };
+
+const usersArray = ["Karen", "Bob"];
 
 // Setup Express App
 const app = express();
@@ -19,40 +30,64 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'frontend')));
 
 // Application Endpoints
-app.post('/login', (req, res, next) => {
+//Login
+app.post('/frontend/login.html', (req, res, next) => {
+
+  session = req.sessions;
+  session.username = req.body.username;
+  session.password = req.body.password;
+  res.end('done');
+  
 
 });
+
+app.get('/frontend/login.html', (req, res, next) => {
+
+  session = req.sessions;
+
+
+  if (req.body.username == 'karen' && req.body.password == 'test123'){
+    
+    res.redirect("/frontend/account");
+    
+
+  }
+  else{
+    res.write(<h1>'enter valid username'</h1>);
+    res.end('<a href='+'/ '+'>login</a>');
+    console.log("error");
+  }
+
+});
+
+
+
+// Signup
+app.post('/frontend/signup.html', (req, res, next) => {
+
+//for (i=0; )
+
+  console.log(req.body.username);
+
+  var i = 0;
+  if (req.body.username == users['0'] ){
+
+  //  res.redirect("/signup.html");
+
+
+    console.log("username taken");
+  }
+  else {
+    
+   res.redirect("/frontend/login");
+   users.push(req.body.username);
+   console.log("error signup");
+
+  }
+
+});
+
 
 
 app.listen(PORT, () => console.log(`server started on ${PORT}`));
 
-/*
-var express = require ("express");
-var app = express();
-var bodyParser = require ("body-parser");
-app.get("/", function(req, res){
-    res.send("account.html")}); //takes you to home page
-app.get("/", function(req, res){
-    res.render("account.ejs")}); //takes you to account page
-const PORT = process.env.PORT||5000;
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
-app.listen(PORT, ()=>console.log("server started on PORT"));
-*/
-
-/*
-var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
-
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.set('port', (process.env.PORT || 5000));
-app.use(express.static(__dirname + 'Desktop\artLobby\node_modules\express\lib\view.js'));
-app.set('views', __dirname + 'Desktop\artLobby\node_modules\express\lib\view.js');
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
-
-app.listen(app.get('port'), function() {
-});
-*/
