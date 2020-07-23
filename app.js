@@ -10,9 +10,8 @@ const session = require('express-session');
 // Setup Express App
 const app = express();
 
-app.use(express.json())
-
-
+app.use(express.json()); // For JSON data in the body
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded\
 
 app.use(session({
   secret: "shh",
