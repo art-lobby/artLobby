@@ -6,8 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Art Lobby - Homepage</title>
 </head>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous">
+</script>
+<script>
+  $(function () {
+    $("#header").load("header.html");
+  })
+</script>
 
 <body>
+  <div id="header"></div>
+
+  <div id="index">
 
   <h1>Art Lobby Homepage</h1>
   <p>Welcome to Art Lobby! We are a site that connects Art instructors to students.</p>
@@ -24,6 +37,7 @@
       <a href='signup.html'><button>Click to Signup</button></a>
     </div>
 
+  </div>
   </div>
 
 
