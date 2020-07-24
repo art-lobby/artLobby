@@ -12,6 +12,8 @@
     text-align: center;
     padding: 0 2%;
     overflow: hidden;
+    background-color: white;
+    position: fixed;
 }
 
 .inner_header{

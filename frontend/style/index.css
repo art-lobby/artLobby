@@ -4,3 +4,83 @@
     list-style: none;
     text-decoration: none;
 }
+
+#home-page{
+    padding-top: 80px;
+    width: 100%;
+    height: fit-content;
+    text-align: center;
+}
+
+.intro{
+    width: 70%;
+    padding: 3.5% 15%;
+    height: 260px;
+    background-color: #F2F2F2;
+}
+
+.artist-pic{
+    float: left;
+    width: 30%;
+    height:100%;
+}
+
+.intro-description{
+    float: right;
+    width: 70%;
+    color: white;
+    background-color: black;
+    text-align: left;
+    height: 100%;
+}
+
+.intro-question{
+    font-size: 26px;
+    padding: 8% 10%;
+}
+
+.intro-answer{
+    font-size: 23px;
+    padding: 5% 10%;
+}
+
+.mission{
+    width: 70%;
+    padding: 0 15% 8% 15%;
+    height: 220px;
+    background-color: #F2F2F2;
+    text-align: left;
+}
+
+.art-forms{
+    width: 41.5%;
+    height: 100%;
+    float: left;
+    background-color: white;
+    padding: 3%;
+}
+
+.our-mission{
+    width: 41.5%;
+    height: 100%;
+    float: right;
+    background-color: white;
+    padding: 3%;
+}
+
+.sign-up {
+    width: 70%;
+    padding: 7% 15%;
+    height: 100px;
+    background-color: #F2F2F2;
+    margin-top: 3%;
+}
+
+button {
+    margin-top: 2%;
+    padding: 1% 2%;
+    background-color: black;
+    color: white;
+    border-radius: 10%;
+    border-color: black;
+}
