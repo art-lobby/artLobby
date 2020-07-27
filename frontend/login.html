@@ -4,26 +4,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up Page - Art Lobby</title>
+  <title>Login Page - Art Lobby</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var email,pass;
+            $("#submit").click(function(){
+                email=$("#email").val();
+                pass=$("#password").val();
+                /*
+                * Perform some validation here.
+                */
+                $.post("/login",{email:email,pass:pass},function(data){
+                    if(data==='done') {
+                        window.location.href="/admin";
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
-	<h1>Login Page</h1>
-  <hr>
-  
-   <form action="/login.html" method="POST"> 
-
-    <label for="username"><b>Username</b></label>
-    <input type="text" id="username" placeholder="Enter Username" name="username" required>
-    <br/>
-
-    <label for="psw"><b>Password</b></label>
-    <input type="password" id="password" placeholder="Enter Password" name="password" required>
-    <br/>
-    <input type="submit" value="login">
-
-</form>
-
+    <input type="text" id="email" placeholder="Enter Email" name="email" required/>
+    <input type="password" id="password" placeholder="Enter Password" name="password" required/>
+    <input type="button" value="Submit" id="submit"/>
 </body>
 
 </html>

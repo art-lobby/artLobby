@@ -4,6 +4,7 @@ const path = require('path');
 // Import Third Party Modules
 const express = require('express');
 const session = require('express-session');
+const router = express.Router();
 
 // Import Local Modules
 
@@ -21,10 +22,10 @@ app.use(session({
 const PORT = process.env.PORT || 5000;
 
 
-const users = {
-  '0': "sam",
-  '1': "amanda"
-};
+const users = [
+  {name: 'sam', email: 'sam@gmail.com', password:'test123'},
+  {name: 'karen', email: 'karen@gmail.com', password:'hello123'}
+];
 
 const usersArray = ["Karen", "Bob"];
 
@@ -33,61 +34,44 @@ app.use(express.static(path.join(__dirname, 'frontend')));
 
 // Application Endpoints
 //Login
-app.post('/frontend/login.html', (req, res, next) => {
+var sess; // global session, NOT recommended
 
-  session = req.sessions;
-  session.username = req.body.username;
-  session.password = req.body.password;
+router.get('/',(req,res) => {
+  sess = req.session;
+  if(sess.email) {
+    return res.redirect('/admin');
+  }
+  res.redirect('login.html');
+});
+
+router.post('/login',(req,res) => {
+  sess = req.session;
+  sess.email = req.body.email;
   res.end('done');
-
 });
 
-app.get('/frontend/login.html', (req, res, next) => {
-
-  const session = req.sessions;
-
-  if (req.body.username == 'karen' && req.body.password == 'test123') {
-
-    res.redirect("/frontend/account");
-
-
+router.get('/admin',(req,res) => {
+  sess = req.session;
+  if(sess.email) {
+    return res.redirect('account.html');
   }
   else {
-    res.write('<h1>enter valid username</h1>');
-    res.end('<a href=' + '/ ' + '>login</a>');
-    console.log("error");
+    res.write('<h1>Please login first.</h1>');
+    res.end('<a href='+'/'+'>Login</a>');
   }
+});
+
+router.get('/logout',(req,res) => {
+  req.session.destroy((err) => {
+    if(err) {
+      return console.log(err);
+    }
+    res.redirect('/');
+  });
 
 });
 
-
-
-// Signup
-app.post('/frontend/signup.html', (req, res, next) => {
-
-  //for (i=0; )
-
-  console.log(req.body.username);
-
-  var i = 0;
-  if (req.body.username == users['0']) {
-
-    //  res.redirect("/signup.html");
-
-
-    console.log("username taken");
-  }
-  else {
-
-    res.redirect("/frontend/login");
-    users.push(req.body.username);
-    console.log("error signup");
-
-  }
-
-});
-
+app.use('/', router);
 
 
 app.listen(PORT, () => console.log(`server started on ${PORT}`));
-
