@@ -119,8 +119,9 @@ app.get('/signup', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  const { email, password } = req.body;
-  if (email && password) {
+  const userData = req.body;
+  if (userData.email && userData.password) {
+
     const login = db.collection('users').find({ email: email });
     /**
     const user = users.find(
