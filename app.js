@@ -4,9 +4,24 @@ const path = require('path');
 // Import Third Party Modules
 const express = require('express');
 const session = require('express-session');
-const router = express.Router();
+const mongoose = require('mongoose');
 
+const URI = "mongodb+srv://artLobby:CodeLabs2020@cluster0.bkz8v.mongodb.net/artLobby?retryWrites=true&w=majority"
 const TWO_HOURS = 1000 * 60 * 60 * 2;
+
+
+//DB connection
+mongoose.connect(URI, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+});
+
+let db = mongoose.connection;
+db.on('error', console.log.bind(console, "connection error"));
+db.once('open', function(callback){
+  console.log('mongo connected');
+});
+
 
 // Declare App Constants
 const {
@@ -132,7 +147,8 @@ app.post('/signup', redirectAccount, (req, res) => {
       return res.redirect('/account');
     }
   }
-  res.redirect('/signup')
+  res.redirect('/signup');
+
 });
 
 app.post('/logout', redirectLogin, (req, res) => {
