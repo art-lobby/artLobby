@@ -12,15 +12,18 @@ const TWO_HOURS = 1000 * 60 * 60 * 2;
 
 //DB connection
 mongoose.connect(URI, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true
+  useUnifiedTopology: true,
+  useNewUrlParser: true
 });
 
 let db = mongoose.connection;
 db.on('error', console.log.bind(console, "connection error"));
-db.once('open', function(callback){
+db.once('open', function (callback) {
   console.log('mongo connected');
 });
+
+// Import Mongoose Model
+const User = require('./models/Users');
 
 
 // Declare App Constants
@@ -118,7 +121,7 @@ app.get('/signup', (req, res) => {
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
   if (email && password) {
-    const login = db.collection('users').find( { email: email } );
+    const login = db.collection('users').find({ email: email });
     /**
     const user = users.find(
       user => user.email === email && user.password === password
@@ -146,7 +149,7 @@ app.post('/signup', (req, res) => {
       }
 
       db.collection('users').insertOne(user, function (err, collection) {
-        if(err) throw err;
+        if (err) throw err;
         console.log("record success");
       });
 
