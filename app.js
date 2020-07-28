@@ -101,35 +101,37 @@ app.get('/', (req, res) => {
   }
 });
 
-app.get('/account', redirectLogin, (req, res) => {
+app.get('/account', (req, res) => {
   const { user } = res.locals;
   res.redirect('account.html');
 });
 
-app.get('/login', redirectAccount, (req, res) => {
+app.get('/login', (req, res) => {
   res.redirect('login.html');
   //req.session.userId = 3;
 });
 
-app.get('/signup', redirectAccount, (req, res) => {
+app.get('/signup', (req, res) => {
   res.redirect('signup.html');
 });
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
   if (email && password) {
+    const login = db.collection('users').find( { email: email } );
+    /**
     const user = users.find(
       user => user.email === email && user.password === password
-    )
-    if (user) {
-      req.session.userId = user.id;
+    )**/
+    if (login) {
+      //req.session.userId = user.id;
       return res.redirect('/account');
     }
   }
   res.redirect('/login');
 });
 
-app.post('/signup', redirectAccount, (req, res) => {
+app.post('/signup', (req, res) => {
   const { name, email, password } = req.body;
   if (name && email && password) {
     const exists = users.some(
@@ -138,20 +140,23 @@ app.post('/signup', redirectAccount, (req, res) => {
     if (!exists) {
       const user = {
         id: users.length + 1,
-        name,
-        email,
-        password
+        name: name,
+        email: email,
+        password: password
       }
-      users.push(user);
-      req.session.userId = user.id;
+
+      db.collection('users').insertOne(user, function (err, collection) {
+        if(err) throw err;
+        console.log("record success");
+      });
+
       return res.redirect('/account');
     }
   }
   res.redirect('/signup');
-
 });
 
-app.post('/logout', redirectLogin, (req, res) => {
+app.post('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) {
       return res.redirect('/home')
