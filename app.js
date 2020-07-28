@@ -6,18 +6,18 @@ const express = require('express');
 const session = require('express-session');
 const router = express.Router();
 
-const TWO_HOURS = 1000*60*60*2;
+const TWO_HOURS = 1000 * 60 * 60 * 2;
 
 // Declare App Constants
 const {
   PORT = 5000,
-    NODE_ENV = 'development',
-    SESS_NAME = 'art-lobby',
-    SESS_SECRET = 'jakdlhjkdsjgnlrglkarwjnv f',
+  NODE_ENV = 'development',
+  SESS_NAME = 'art-lobby',
+  SESS_SECRET = 'jakdlhjkdsjgnlrglkarwjnv f',
   SESS_LIFETIME = TWO_HOURS
 } = process.env;
 
-const IN_PROD = NODE_ENV ==='production';
+const IN_PROD = NODE_ENV === 'production';
 // Import Local Modules
 // Setup Express App
 const app = express();
@@ -39,9 +39,9 @@ app.use(session({
 
 
 const users = [
-  {id: 1, name: 'sam', email: 'sam@gmail.com', password:'test123'},
-  {id: 2, name: 'karen', email: 'karen@gmail.com', password:'hello123'},
-  {id: 3, name: 'alan', email: 'alan@gmail.com', password:'hello123'}
+  { id: 1, name: 'sam', email: 'sam@gmail.com', password: 'test123' },
+  { id: 2, name: 'karen', email: 'karen@gmail.com', password: 'hello123' },
+  { id: 3, name: 'alan', email: 'alan@gmail.com', password: 'hello123' }
 ];
 
 
@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname, 'frontend')));
 // Application Endpoints
 //Login
 const redirectLogin = (req, res, next) => {
-  if(!req.session.userId){
+  if (!req.session.userId) {
     res.redirect('/login');
   } else {
     next();
@@ -59,54 +59,54 @@ const redirectLogin = (req, res, next) => {
 };
 
 const redirectAccount = (req, res, next) => {
-  if(!req.session.userId){
-    res.redirect('/account');
+  if (!req.session.userId) {
+    return res.redirect('/account');
   } else {
     next();
   }
 };
 
 app.use((req, res, next) => {
-  const {userId} = req.session;
-  if(userId) {
+  const { userId } = req.session;
+  if (userId) {
     res.locals.user = users.find(
-        user => user.id === userId
+      user => user.id === userId
     )
   }
   next()
 });
 
-app.get('/',(req,res) => {
+app.get('/', (req, res) => {
   const { userId } = req.session;
   console.log(userId);
-  if(userId){
+  if (userId) {
     res.redirect('account.html');
-  } else{
+  } else {
     res.redirect('index.html');
   }
 });
 
-app.get('/account', redirectLogin, (req,res) => {
-  const {user} = res.locals;
+app.get('/account', redirectLogin, (req, res) => {
+  const { user } = res.locals;
   res.redirect('account.html');
 });
 
-app.get('/login', redirectAccount, (req,res) => {
+app.get('/login', redirectAccount, (req, res) => {
   res.redirect('login.html');
   //req.session.userId = 3;
 });
 
-app.get('/signup', redirectAccount, (req,res) => {
+app.get('/signup', redirectAccount, (req, res) => {
   res.redirect('signup.html');
 });
 
-app.post('/login', redirectAccount, (req,res) => {
-  const {email, password}= req.body;
-  if( email && password) {
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+  if (email && password) {
     const user = users.find(
-        user => user.email === email && user.password === password
+      user => user.email === email && user.password === password
     )
-    if(user){
+    if (user) {
       req.session.userId = user.id;
       return res.redirect('/account');
     }
@@ -114,13 +114,13 @@ app.post('/login', redirectAccount, (req,res) => {
   res.redirect('/login');
 });
 
-app.post('/signup', redirectAccount, (req,res) => {
-  const {name, email, password}= req.body;
-  if(name && email && password){
+app.post('/signup', redirectAccount, (req, res) => {
+  const { name, email, password } = req.body;
+  if (name && email && password) {
     const exists = users.some(
-        user => user.email === email
+      user => user.email === email
     )
-    if(!exists){
+    if (!exists) {
       const user = {
         id: users.length + 1,
         name,
@@ -135,9 +135,9 @@ app.post('/signup', redirectAccount, (req,res) => {
   res.redirect('/signup')
 });
 
-app.post('/logout', redirectLogin, (req,res) => {
+app.post('/logout', redirectLogin, (req, res) => {
   req.session.destroy(err => {
-    if(err){
+    if (err) {
       return res.redirect('/home')
     }
     res.redirect('/login')
@@ -146,5 +146,5 @@ app.post('/logout', redirectLogin, (req,res) => {
 
 
 app.listen(PORT, () => console.log(
-    `http://localhost:${PORT}`
+  `http://localhost:${PORT}`
 ));
