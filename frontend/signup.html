@@ -8,30 +8,16 @@
 </head>
 
 <body>
-	<h1>Sign Up Page</h1>
+  <h1>Sign Up Page</h1>
   <p>Fill everything in to create an account.</p>
   <hr>
-  <label for="first-name"><b>First Name</b></label>
-  <input type="text" placeholder="Enter First Name" name="first-name" required>
-  <br/>
-  <label for="last-name"><b>Last Name</b></label>
-  <input type="text" placeholder="Enter Last Name" name="last-name" required>
-  <br/>
-  <label for="email"><b>Email</b></label>
-  <input type="text" placeholder="Enter Email" name="email" required>
-  <br/>
-  <label for="psw"><b>Password</b></label>
-  <input type="password" placeholder="Enter Password" name="psw" required>
-  <br/>
-  <label for="psw-repeat"><b>Repeat Password</b></label>
-  <input type="password" placeholder="Re-enter Password" name="psw-repeat" required>
-  <br/>
-  <label>
-    <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px">
-    By creating an account you agree to our <a href="#">Terms & Privacy</a>.
-  </label>
-  <br/>
-  <button type="submit" class="signupbtn">Sign Up</button>
+  <form action="/signup" method="post">
+    <input type="text" placeholder="Enter name" name="name" required>
+    <input type="text" placeholder="Enter email" name="email" required>
+    <input type="password" placeholder="Enter Password" name="password" required>
+    <input type="submit" value="signup">
+  </form>
+  <a href="login.html">Login</a>
 </body>
 
 </html>
