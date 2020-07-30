@@ -134,7 +134,7 @@ app.post('/logout', (req, res) => {
     }
     res.redirect('/login')
   })
-  res.send();
+  // res.send();
 });
 
 
