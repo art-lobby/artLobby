@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style/account.css">
+    <title>Art Lobby - Classes for Teachers</title>
+</head>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous">
+</script>
+<script>
+    $(function () {
+        $("#header").load("header.html");
+    })
+</script>
+
+<body>
+
+    <style>
+        #teachersClasses{
+            text-align: center;
+        }
+
+    </style>
+
+    <div id="header"></div>
+    <div id="account-page">
+        <div class="user-data">
+            <div class="user-profile-background">
+                <div class="user-profile">
+                    <img src="image/blank_profile_pic.png">
+                    <h2>Name</h2>
+                    <h3>Teacher</h3>
+                    <ul>
+                        <li>Class 1</li>
+                        <li>Class 2</li>
+                        <li>Class 3</li>
+                    </ul>
+                    <a href="index.html">
+                        <form method="post" action="/logout">
+                            <button type="button">Logout</button>
+                        </form>
+                    </a>
+                </div>
+            </div>
+            <div class="user-instruction">
+                <p>Enter a class to get started</p>
+            </div>
+        </div>
+    </div>
+
+    <br><br><br>
+
+    <div id="teachersClasses">
+
+        <h1>Classes for Teachers</h1><br>
+
+        <p>Fill out the information to add a class</p><br>
+
+        <div id="header"></div>
+
+        <form action="/classes" method="post">
+            <input type="text" placeholder="Enter name" name="name" required>
+            <input type="text" placeholder="Description" name="description" required>
+            <input type="text" placeholder="Time" name="time" required>
+            <input type="submit" value="Add Class">
+        </form>
+
+    </div>
+
+
+    
+
+
+
+</body>
+
+</html>
