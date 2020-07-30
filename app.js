@@ -63,21 +63,21 @@ app.use(express.static(path.join(__dirname, 'frontend')));
 //Login
 
 app.get('/', (req, res) => {
-  if(!res.session) {
+  if (!res.session) {
     res.redirect('/index.html');
   }
   res.redirect('/account.html');
 });
 
 app.get('/account', (req, res) => {
-  if(!res.session) {
+  if (!res.session) {
     res.redirect('/login.html');
   }
   res.redirect('/account.html');
 });
 
 app.get('/login', (req, res) => {
-  if(!res.session) {
+  if (!res.session) {
     res.redirect('/login.html');
   }
   res.redirect('/account.html');
@@ -92,18 +92,18 @@ app.post('/login', (req, res) => {
   const email = userData.email;
   const password = userData.password;
 
-  User.findOne({email: email, password: password}, function (err, user) {
-      if(err) {
-        console.log(err);
-        return res.status(500).send();
-      }
-      if(!user) {
-        return res.status(404).send();
-      }
+  User.findOne({ email: email, password: password }, function (err, user) {
+    if (err) {
+      console.log(err);
+      return res.status(500).send();
+    } else if (!user) {
+      return res.status(404).send();
+    } else {
       req.session.user = user;
       console.log(req.session.user);
       res.redirect('/account');
-    })
+    };
+  })
 });
 
 app.post('/signup', (req, res) => {
@@ -119,7 +119,7 @@ app.post('/signup', (req, res) => {
   newUser.password = password;
   newUser.status = status;
   newUser.save(function (err, savedUser) {
-    if(err){
+    if (err) {
       console.log(err);
       return res.status(500).send();
     }
