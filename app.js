@@ -6,7 +6,7 @@ const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 
-const URI = "mongodb+srv://artLobby:CodeLabs2020@cluster0.bkz8v.mongodb.net/artLobby?retryWrites=true&w=majority"
+const URI = ""
 const TWO_HOURS = 1000 * 60 * 60 * 2;
 
 
