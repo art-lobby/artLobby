@@ -23,7 +23,7 @@ db.once('open', function (callback) {
 });
 
 // Import Mongoose Model
-const User = require('./models/Users');
+const User = require('./models/User');
 
 
 // Declare App Constants
@@ -120,44 +120,38 @@ app.get('/signup', (req, res) => {
 
 app.post('/login', (req, res) => {
   const userData = req.body;
-  if (userData.email && userData.password) {
+  const email = userData.email;
+  const password = userData.password;
 
-    const login = db.collection('users').find({ email: email });
-    /**
-    const user = users.find(
-      user => user.email === email && user.password === password
-    )**/
-    if (login) {
-      //req.session.userId = user.id;
-      return res.redirect('/account');
-    }
-  }
-  res.redirect('/login');
-});
+  User.findOne({email: email, password: password}, function (err, user) {
+      if(err) {
+        console.log(err);
+        return res.status(500).send();
+      }
+      if(!user) {
+        return res.status(404).send();
+      }
+      res.redirect('/account');
+    })
+})
 
 app.post('/signup', (req, res) => {
-  const { name, email, password } = req.body;
-  if (name && email && password) {
-    const exists = users.some(
-      user => user.email === email
-    )
-    if (!exists) {
-      const user = {
-        id: users.length + 1,
-        name: name,
-        email: email,
-        password: password
-      }
+  const userData = req.body;
+  const name = userData.name;
+  const email = userData.email;
+  const password = userData.password;
 
-      db.collection('users').insertOne(user, function (err, collection) {
-        if (err) throw err;
-        console.log("record success");
-      });
-
-      return res.redirect('/account');
+  let newUser = new User();
+  newUser.name = name;
+  newUser.email = email;
+  newUser.password = password;
+  newUser.save(function (err, savedUser) {
+    if(err){
+      console.log(err);
+      return res.status(500).send();
     }
-  }
-  res.redirect('/signup');
+    res.redirect('/login');
+  })
 });
 
 app.post('/logout', (req, res) => {
