@@ -63,23 +63,27 @@ app.use(express.static(path.join(__dirname, 'frontend')));
 //Login
 
 app.get('/', (req, res) => {
-  if (!res.session) {
+  if (!req.session) {
     res.redirect('/index.html');
   }
   res.redirect('/account.html');
 });
 
 app.get('/account', (req, res) => {
-  if (!res.session) {
+  if (!req.session) {
     res.redirect('/login.html');
   }
+  console.log('login->account');
+  console.log(req.session.user);
   res.redirect('/account.html');
 });
 
 app.get('/login', (req, res) => {
-  if (!res.session) {
+  if (!req.session) {
     res.redirect('/login.html');
   }
+  console.log('account->login');
+  console.log(req.session.user);
   res.redirect('/account.html');
 });
 
