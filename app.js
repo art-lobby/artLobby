@@ -6,7 +6,7 @@ const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 
-const URI = "TODO"
+const URI = ""
 const TWO_HOURS = 1000 * 60 * 60 * 2;
 
 
@@ -56,62 +56,35 @@ app.use(session({
 }));
 
 
-const users = [
-  { id: 1, name: 'sam', email: 'sam@gmail.com', password: 'test123' },
-  { id: 2, name: 'karen', email: 'karen@gmail.com', password: 'hello123' },
-  { id: 3, name: 'alan', email: 'alan@gmail.com', password: 'hello123' }
-];
-
-
 //Set Static Folder
 app.use(express.static(path.join(__dirname, 'frontend')));
 
 // Application Endpoints
 //Login
-const redirectLogin = (req, res, next) => {
-  if (!req.session.userId) {
-    res.redirect('/login');
-  } else {
-    next();
-  }
-};
-
-const redirectAccount = (req, res, next) => {
-  if (!req.session.userId) {
-    return res.redirect('/account');
-  } else {
-    next();
-  }
-};
-
-app.use((req, res, next) => {
-  const { userId } = req.session;
-  if (userId) {
-    res.locals.user = users.find(
-      user => user.id === userId
-    )
-  }
-  next()
-});
 
 app.get('/', (req, res) => {
-  const { userId } = req.session;
-  console.log(userId);
-  if (userId) {
-    res.redirect('account.html');
-  } else {
-    res.redirect('index.html');
+  if (!req.session) {
+    res.redirect('/index.html');
   }
+  res.redirect('/account.html');
 });
 
 app.get('/account', (req, res) => {
-  const { user } = res.locals;
-  res.redirect('account.html');
+  if (!req.session) {
+    res.redirect('/login.html');
+  }
+  console.log('login->account');
+  console.log(req.session.user);
+  res.redirect('/account.html');
 });
 
 app.get('/login', (req, res) => {
-  res.redirect('login.html');
-  //req.session.userId = 3;
+  if (!req.session) {
+    res.redirect('/login.html');
+  }
+  console.log('account->login');
+  console.log(req.session.user);
+  res.redirect('/account.html');
 });
 
 app.get('/signup', (req, res) => {
@@ -123,35 +96,39 @@ app.post('/login', (req, res) => {
   const email = userData.email;
   const password = userData.password;
 
-  User.findOne({email: email, password: password}, function (err, user) {
-      if(err) {
-        console.log(err);
-        return res.status(500).send();
-      }
-      if(!user) {
-        return res.status(404).send();
-      }
+  User.findOne({ email: email, password: password }, function (err, user) {
+    if (err) {
+      console.log(err);
+      return res.status(500).send();
+    } else if (!user) {
+      return res.status(404).send();
+    } else {
+      req.session.user = user;
+      console.log(req.session.user);
       res.redirect('/account');
-    })
-})
+    };
+  })
+});
 
 app.post('/signup', (req, res) => {
   const userData = req.body;
   const name = userData.name;
   const email = userData.email;
   const password = userData.password;
+  const status = userData.status;
 
   let newUser = new User();
   newUser.name = name;
   newUser.email = email;
   newUser.password = password;
+  newUser.status = status;
   newUser.save(function (err, savedUser) {
-    if(err){
+    if (err) {
       console.log(err);
       return res.status(500).send();
     }
     res.redirect('/login');
-  })
+  });
 });
 
 app.post('/logout', (req, res) => {
@@ -161,6 +138,7 @@ app.post('/logout', (req, res) => {
     }
     res.redirect('/login')
   })
+  // res.send();
 });
 
 
