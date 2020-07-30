@@ -6,7 +6,7 @@ const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 
-const URI = ""
+const URI = "mongodb+srv://artLobby:CodeLabs2020@cluster0.bkz8v.mongodb.net/artLobby?retryWrites=true&w=majority"
 const TWO_HOURS = 1000 * 60 * 60 * 2;
 
 
@@ -63,15 +63,24 @@ app.use(express.static(path.join(__dirname, 'frontend')));
 //Login
 
 app.get('/', (req, res) => {
-    res.redirect('index.html');
+  if(!res.session) {
+    res.redirect('/index.html');
+  }
+  res.redirect('/account.html');
 });
 
 app.get('/account', (req, res) => {
-  res.redirect('account.html');
+  if(!res.session) {
+    res.redirect('/login.html');
+  }
+  res.redirect('/account.html');
 });
 
 app.get('/login', (req, res) => {
-  res.redirect('login.html');
+  if(!res.session) {
+    res.redirect('/login.html');
+  }
+  res.redirect('/account.html');
 });
 
 app.get('/signup', (req, res) => {
@@ -93,16 +102,8 @@ app.post('/login', (req, res) => {
       }
       req.session.user = user;
       console.log(req.session.user);
-      res.redirect('/dashboard');
+      res.redirect('/account');
     })
-  res.send();
-});
-
-app.get('/dashboard', (req, res) => {
-  if(!res.session) {
-    res.redirect('/login');
-  }
-  res.redirect('/account');
 });
 
 app.post('/signup', (req, res) => {
