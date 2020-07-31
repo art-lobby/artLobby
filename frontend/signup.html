@@ -8,17 +8,106 @@
 </head>
 
 <body>
-  <h1>Sign Up Page</h1>
-  <p>Fill everything in to create an account.</p>
-  <hr>
+
+  <style>
+    
+  
+  h2 {
+    text-align: center;
+  }
+  
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #F2F2F2
+  }
+  form {
+    border: 3px solid #f1f1f1;
+    max-width: 500px;
+    margin: auto;
+    }
+  
+  input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  button {
+    background-color: #000000;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  .container {
+    padding: 16px;
+    max-width: 500px;
+    background-color: rgb(255, 255, 255)}
+  
+  }
+  
+  </style>
+
+
+
+  
+
+
+
+  <h2>Signup Form</h2>
+
   <form action="/signup" method="post">
+ 
+
+  <div class="container">
+
+    <label for="name"><b>Name</b></label>
     <input type="text" placeholder="Enter name" name="name" required>
+
+    <label for="email"><b>Email</b></label>
     <input type="text" placeholder="Enter email" name="email" required>
+
+    <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="password" required>
+
+    <!--
+    <label for="status"><b>Status</b></label>
     <input type="status" placeholder="Enter Status" name="status" required>
-    <input type="submit" value="signup">
-  </form>
-  <a href="login.html">Login</a>
+    -->
+
+    <label for="status">Choose your status:</label>
+    <select name="status" id="status">
+    <option value="teacher">Teacher</option>
+    <option value="student">Student</option>
+    
+  </select>
+
+
+    <button type="submit" value="signup" id="submit">Signup</button>
+
+
+
+    
+    
+  </div>
+
+  <div class="container" style="background-color:#f1f1f1">
+    Already registered?  <a href="login.html">Log in here</a></span>
+  </div>
+</form>
+
+
+
 </body>
 
 </html>
