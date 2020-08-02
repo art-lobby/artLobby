@@ -1,5 +1,100 @@
-<form action="/accountpage" method="POST">
-  <label for="classname">Class to be added:</label>
-  <input type="text" id="classname" name="classname"><br><br>
-  <input type="submit" value="Submit">
-</form>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style/account.css">
+    <title>Art Lobby - Account Page</title>
+</head>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous">
+</script>
+<script>
+    $(function () {
+        $("#header").load("header.html");
+    })
+</script>
+
+<body>
+    <div id="header"></div>
+    <div id="account-page">
+        <div class="user-data">
+            <div class="user-profile-background">
+                <div class="user-profile">
+                    <img src="image/blank_profile_pic.png">
+                    <h2><%= name %></h2>
+                    <h3><%= status %></h3>
+                    <ul>
+                        <li>Class 1: <%= classOne %></li>
+                        <li>Class 2: <%= classTwo %></li>
+                        <li>Class 3: <%= classThree %></li>
+                    </ul>
+                    <a href="index.html">
+                        <form method="post" action="/logout">
+                            <button type="button">Logout</button>
+                        </form>
+                    </a>
+                </div>
+            </div>
+            <div class="user-instruction">
+                <p>Click on a class to get started</p>
+            </div>
+        </div>
+        <div class="class-container">
+            <div id="studentClasses">
+
+            <h1>Classes Offered for Students</h1>
+            <br>
+
+            <div class="classes">
+                <h3>Salsa Dance Class</h3>
+                <button type="button">Add Class</button>
+                <p><strong>Description:</strong> I am offering a salsa dance class for young adults. For beginners. $20 per lesson. </p>
+                <p><strong>Time:</strong> Monday through Friday 4-6pm</p>
+                <p><strong>Instructor:</strong> Karen</p>
+                <br>
+            </div>
+
+            <div class="classes">
+                <h3>Watercolor Painting Class</h3>
+                <button type="button">Add Class</button>
+                <p><strong>Description:</strong> I am offering a beginners watercolor painting class. No prior knowledge or skill needed. $25 supplies included. </p>
+                <p><strong>Time:</strong> Saturdays and Sundays 12-2pm</p>
+                <p><strong>Instructor:</strong> Sam</p>
+                <br>
+            </div>
+
+            <div class="classes">
+                <h3>Violin Class</h3>
+                <button type="button">Add Class</button>
+                <p><strong>Description:</strong> I am offering a violin lessons for anyone keen on learning. For intermediates. Bring your own violin. The price is $30.  </p>
+                <p><strong>Time:</strong> Tuesdays and Thursdays 6-7pm</p>
+                <p><strong>Instructor:</strong> Bob</p>
+                <br>
+            </div>
+
+        </div>
+            <div id="teachersClasses">
+            <h1>Classes for Teachers</h1><br>
+            <p>Fill out the information to add a class</p><br>
+            <form action="/teacher_class" method="post">
+                <label for="class_name"><b>Class Name</b></label><br/>
+                <input type="text" placeholder="Class name" name="className" required>
+                <br/>
+                <label for="class_description"><b>Class Description</b></label><br/>
+                <input type="text" placeholder="Description" name="classDescription" required>
+                <br/>
+                <label for="class_time"><b>Class Time</b></label><br/>
+                <input type="text" placeholder="Time" name="classTime" required>
+                <br/>
+                <input type="submit" value="Add Class">
+            </form>
+        </div>
+        </div>
+    </div>
+</body>
+
+</html>

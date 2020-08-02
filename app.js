@@ -58,33 +58,34 @@ app.use(session({
 
 //Set Static Folder
 app.use(express.static(path.join(__dirname, 'frontend')));
+app.set('view engine', 'ejs');
 
 // Application Endpoints
 //Login
 
 app.get('/', (req, res) => {
-  if (!req.session) {
+  if (!req.session.user) {
     res.redirect('/index.html');
   }
   res.redirect('/account.html');
 });
 
 app.get('/account', (req, res) => {
-  if (!req.session) {
+  if (!req.session.user) {
     res.redirect('/login.html');
   }
   console.log('login->account');
-  console.log(req.session.user);
-  res.redirect('/account.html');
+  console.log(req.session);
+  res.render('account', req.session.user);
 });
 
 app.get('/login', (req, res) => {
-  if (!req.session) {
+  if (!req.session.user) {
     res.redirect('/login.html');
   }
   console.log('account->login');
   console.log(req.session.user);
-  res.redirect('/account.html');
+  res.redirect('/account');
 });
 
 app.get('/signup', (req, res) => {
@@ -110,6 +111,13 @@ app.post('/login', (req, res) => {
   })
 });
 
+app.post('/teacher_class', (req, res) => {
+  const userData = req.body;
+  const className = userData.className;
+  req.session.user.classOne = className;
+  res.redirect('/account');
+});
+
 app.post('/signup', (req, res) => {
   const userData = req.body;
   const name = userData.name;
@@ -122,6 +130,9 @@ app.post('/signup', (req, res) => {
   newUser.email = email;
   newUser.password = password;
   newUser.status = status;
+  newUser.classOne = 'None';
+  newUser.classTwo = 'None';
+  newUser.classThree = 'None';
   newUser.save(function (err, savedUser) {
     if (err) {
       console.log(err);
@@ -138,7 +149,6 @@ app.post('/logout', (req, res) => {
     }
     res.redirect('/login')
   })
-  // res.send();
 });
 
 
